@@ -1,0 +1,13 @@
+{{extend 'layout.html'}}
+        {{if auth.user and auth.user.IS_ADMIN:}}
+			<form action="remove_design_helper">
+		        {{for entry in design_table:}}
+		            {{=entry.name}}&nbsp;{{=entry.description}}
+		            <input type="checkbox" name="{{=entry.id}}" /><br />
+		        {{pass}}
+				<input type="submit" name="delete" value="Delete"/>
+			</form>
+            <h2>Note: Deleting design entries will delete all products using the corresponding deleted designs. It is not recommended to delete design entries.</h2>
+		{{else:}}
+		    <p style="font-size:24px">You do not have access to this page. Please contact administrator for access.</p>
+		{{pass}}

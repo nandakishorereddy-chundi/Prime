@@ -1,0 +1,219 @@
+{{extend 'layout.html'}}
+        <script>
+             $(document).ready(function() {
+                $("#view_profile_table").hide();
+                $("#show_profile_table").click(function () {
+	                $("#view_profile_table").slideToggle("slow");
+                });
+                $("#view_reinforcement_table").hide();
+                $("#show_reinforcement_table").click(function () {
+	                $("#view_reinforcement_table").slideToggle("slow");
+                });
+                $("#view_hardware_table").hide();
+                $("#show_hardware_table").click(function () {
+	                $("#view_hardware_table").slideToggle("slow");
+                });
+                $("#view_glass_table").hide();
+                $("#show_glass_table").click(function () {
+	                $("#view_glass_table").slideToggle("slow");
+                });
+                $("#view_material_table").hide();
+                $("#show_material_table").click(function () {
+	                $("#view_material_table").slideToggle("slow");
+                });
+            });
+        </script>
+        {{if auth.user :}}
+            <button id="show_profile_table">View/Hide Profile Entries</button><br />
+            <div id="view_profile_table">
+	            <h3>Entries in Profile Table:</h3>
+                <p>Name&nbsp;&nbsp;&nbsp;profile_code&nbsp;&nbsp;&nbsp;category
+	                &nbsp;&nbsp;&nbsp;description&nbsp;&nbsp;&nbsp;weight&nbsp;&nbsp;&nbsp;profile_length
+	                &nbsp;&nbsp;&nbsp;number_of_pieces&nbsp;&nbsp;&nbsp;price&nbsp;&nbsp;&nbsp;quantity</p>
+				{{for entry in profile_table:}}
+	                <p><b>{{=entry.name}}</b>&nbsp;&nbsp;&nbsp;{{=entry.profile_code}}&nbsp;&nbsp;&nbsp;{{=entry.category}}
+	                &nbsp;&nbsp;&nbsp;{{=entry.description}}&nbsp;&nbsp;&nbsp;{{=entry.weight}}&nbsp;&nbsp;&nbsp;{{=entry.profile_length}}
+	                &nbsp;&nbsp;&nbsp;{{=entry.number_of_pieces}}&nbsp;&nbsp;&nbsp;{{=entry.price}}&nbsp;&nbsp;&nbsp;{{=entry.quantity}}</p>
+	            {{pass}}
+            </div><br />
+            <form action="add_profile_entry.html">
+				<input type="submit" value="Add new entry to profile table"/>
+			</form><br />
+			<form action="update_profile_helper">
+				<select name="entry_id">
+	                {{for entry in profile_table:}}
+						<option value="{{=entry.id}}">{{=entry.name}}</option>
+	                {{pass}}
+				</select>
+                &nbsp;&nbsp;&nbsp;
+                <input type="text" name="quantity" value="0">&nbsp;&nbsp;&nbsp;
+				<input type="submit" name="Add" value="Add quantity in profile table"/>&nbsp;&nbsp;&nbsp;
+                <input type="submit" name="Delete" value="Delete quantity in profile table"/><br><br>
+			</form>
+            <form action="update_profile_entry.html">
+				<select name="entry_id">
+	                {{for entry in profile_table:}}
+						<option value="{{=entry.id}}">{{=entry.name}}</option>
+	                {{pass}}
+				</select>
+                &nbsp;&nbsp;&nbsp;
+                <input type="submit" name="Update" value="Update Profile"/>
+			</form>
+			<br /><br />
+            <form action="remove_profile.html">
+				<input type="submit" value="Remove Profile"/>
+			</form><br />
+			<hr />
+
+            <button id="show_reinforcement_table">View/Hide Reinforcement Entries</button><br />
+            <div id="view_reinforcement_table">
+                <h3>Entries in Reinforcement Table:</h3>
+                <p>Name&nbsp;&nbsp;&nbsp;description&nbsp;&nbsp;&nbsp;weight
+	                &nbsp;&nbsp;&nbsp;reinforcement_length&nbsp;&nbsp;&nbsp;number_of_pieces&nbsp;&nbsp;&nbsp;price&nbsp;&nbsp;&nbsp;quantity</p>
+				{{for entry in reinforcement_table:}}
+					<p><b>{{=entry.name}}</b>&nbsp;&nbsp;&nbsp;{{=entry.description}}&nbsp;&nbsp;&nbsp;{{=entry.weight}}
+	                &nbsp;&nbsp;&nbsp;{{=entry.reinforcement_length}}&nbsp;&nbsp;&nbsp;{{=entry.number_of_pieces}}&nbsp;&nbsp;&nbsp;{{=entry.price}}&nbsp;&nbsp;&nbsp;{{=entry.quantity}}</p>
+				{{pass}}
+            </div><br />
+            <form action="add_reinforcement_entry.html">
+				<input type="submit" value="Add new entry to reinforcement table"/>
+			</form><br />
+			<form action="update_reinforcement_helper">
+				<select name="entry_id">
+	                {{for entry in reinforcement_table:}}
+						<option value="{{=entry.id}}">{{=entry.name}}</option>
+	                {{pass}}
+				</select>
+                &nbsp;&nbsp;&nbsp;
+                <input type="text" name="quantity" value="0">&nbsp;&nbsp;&nbsp;
+				<input type="submit" name="Add" value="Add quantity in reinforcement table"/>&nbsp;&nbsp;&nbsp;
+                <input type="submit" name="Delete" value="Delete quantity in reinforcement table"/><br><br>
+			</form>
+            <form action="update_reinforcement_entry.html">
+				<select name="entry_id">
+	                {{for entry in reinforcement_table:}}
+						<option value="{{=entry.id}}">{{=entry.name}}</option>
+	                {{pass}}
+				</select>
+                &nbsp;&nbsp;&nbsp;
+                <input type="submit" name="Update" value="Update reinforcement"/>
+			</form>
+			<br /><br />
+            <form action="remove_reinforcement.html">
+				<input type="submit" value="Remove reinforcement"/>
+			</form><br />
+			<hr />
+
+            <button id="show_hardware_table">View/Hide Hardware and Accessories Entries</button><br />
+            <div id="view_hardware_table">
+                <h3>Entries in Hardware and Accessories Table:</h3>
+                <p>Name&nbsp;&nbsp;&nbsp;description&nbsp;&nbsp;&nbsp;price&nbsp;&nbsp;&nbsp;quantity</p>
+				{{for entry in HAA_table:}}
+					<p><b>{{=entry.name}}</b>&nbsp;&nbsp;&nbsp;{{=entry.description}}&nbsp;&nbsp;&nbsp;{{=entry.price}}&nbsp;&nbsp;&nbsp;{{=entry.quantity}}</p>
+				{{pass}}
+            </div><br />
+            <form action="add_HAA_entry.html">
+				<input type="submit" value="Add new entry to HAA table"/>
+			</form><br />
+			<form action="update_HAA_helper">
+				<select name="entry_id">
+	                {{for entry in HAA_table:}}
+						<option value="{{=entry.id}}">{{=entry.name}}</option>
+	                {{pass}}
+				</select>
+                &nbsp;&nbsp;&nbsp;
+                <input type="text" name="quantity" value="0">&nbsp;&nbsp;&nbsp;
+				<input type="submit" name="Add" value="Add quantity in HAA table"/>&nbsp;&nbsp;&nbsp;
+                <input type="submit" name="Delete" value="Delete quantity in HAA table"/><br><br>
+			</form>
+            <form action="update_HAA_entry.html">
+				<select name="entry_id">
+	                {{for entry in HAA_table:}}
+						<option value="{{=entry.id}}">{{=entry.name}}</option>
+	                {{pass}}
+				</select>
+                &nbsp;&nbsp;&nbsp;
+                <input type="submit" name="Update" value="Update HAA"/>
+			</form>
+			<br /><br />
+            <form action="remove_HAA.html">
+				<input type="submit" value="Remove HAA"/>
+			</form><br />
+			<hr />
+
+            <button id="show_glass_table">View/Hide Glass Entries</button><br />
+            <div id="view_glass_table">
+	            <h3>Entries in Glass Table:</h3>
+                <p>Name&nbsp;&nbsp;&nbsp;description&nbsp;&nbsp;&nbsp;price&nbsp;&nbsp;&nbsp;quantity</p>
+				{{for entry in glass_table:}}
+					<p><b>{{=entry.name}}</b>&nbsp;&nbsp;&nbsp;{{=entry.description}}&nbsp;&nbsp;&nbsp;{{=entry.price}}&nbsp;&nbsp;&nbsp;{{=entry.quantity}}</p>
+				{{pass}}
+            </div><br />
+            <form action="add_glass_entry.html">
+				<input type="submit" value="Add new entry to glass table"/>
+			</form><br />
+			<form action="update_glass_helper">
+				<select name="entry_id">
+	                {{for entry in glass_table:}}
+						<option value="{{=entry.id}}">{{=entry.name}}</option>
+	                {{pass}}
+				</select>
+                &nbsp;&nbsp;&nbsp;
+                <input type="text" name="quantity" value="0">&nbsp;&nbsp;&nbsp;
+				<input type="submit" name="Add" value="Add quantity in glass table"/>&nbsp;&nbsp;&nbsp;
+                <input type="submit" name="Delete" value="Delete quantity in glass table"/><br><br>
+			</form>
+            <form action="update_glass_entry.html">
+				<select name="entry_id">
+	                {{for entry in glass_table:}}
+						<option value="{{=entry.id}}">{{=entry.name}}</option>
+	                {{pass}}
+				</select>
+                &nbsp;&nbsp;&nbsp;
+                <input type="submit" name="Update" value="Update glass"/>
+			</form>
+			<br /><br />
+            <form action="remove_glass.html">
+				<input type="submit" value="Remove glass"/>
+			</form><br />
+			<hr />
+
+            <button id="show_material_table">View/Hide Installation Material Entries</button><br />
+            <div id="view_material_table">
+	            <h3>Entries in Installation Material Table:</h3>
+                <p>Name&nbsp;&nbsp;&nbsp;description&nbsp;&nbsp;&nbsp;price&nbsp;&nbsp;&nbsp;quantity</p>
+				{{for entry in material_table:}}
+					<p><b>{{=entry.name}}</b>&nbsp;&nbsp;&nbsp;{{=entry.description}}&nbsp;&nbsp;&nbsp;{{=entry.price}}&nbsp;&nbsp;&nbsp;{{=entry.quantity}}</p>
+				{{pass}}
+            </div><br />
+            <form action="add_material_entry.html">
+				<input type="submit" value="Add new entry to Material table"/>
+			</form><br />
+			<form action="update_material_helper">
+				<select name="entry_id">
+	                {{for entry in material_table:}}
+						<option value="{{=entry.id}}">{{=entry.name}}</option>
+	                {{pass}}
+				</select>
+                &nbsp;&nbsp;&nbsp;
+                <input type="text" name="quantity" value="0">&nbsp;&nbsp;&nbsp;
+				<input type="submit" name="Add" value="Add quantity in Installiation Material table"/>&nbsp;&nbsp;&nbsp;
+                <input type="submit" name="Delete" value="Delete quantity in Installation Material table"/><br><br>
+			</form>
+            <form action="update_material_entry.html">
+				<select name="entry_id">
+	                {{for entry in material_table:}}
+						<option value="{{=entry.id}}">{{=entry.name}}</option>
+	                {{pass}}
+				</select>
+                &nbsp;&nbsp;&nbsp;
+                <input type="submit" name="Update" value="Update Installation Material"/>
+			</form>
+            <br /><br />
+            <form action="remove_material.html">
+				<input type="submit" value="Remove Installation Material"/>
+			</form>
+        <br><br>
+        {{else:}}
+            <p style="font-size:24px">You do not have access to this page. Please contact administrator for access.</p>
+        {{pass}}

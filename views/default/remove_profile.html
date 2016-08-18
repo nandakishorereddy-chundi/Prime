@@ -1,0 +1,12 @@
+{{extend 'layout.html'}}
+{{if auth.user and auth.user.IS_ADMIN:}}
+			<form action="remove_profile_helper">
+		        {{for entry in profile_table:}}
+		            {{=entry.name}}&nbsp;&nbsp;&nbsp;&nbsp;{{=entry.quantity}}
+		            <input type="checkbox" name="{{=entry.id}}" /><br />
+		        {{pass}}
+				<input type="submit" name="remove" value="Remove These Profiles"/>
+			</form>
+		{{else:}}
+		    <p style="font-size:24px">You do not have access to this page. Please contact administrator for access.</p>
+		{{pass}}

@@ -1,0 +1,135 @@
+{{extend 'layout.html'}}
+        <script>
+            $(document).ready(function() {
+				$("#view_products").hide();
+				$("#show_products").click(function () {
+				    $("#view_products").slideToggle("slow");
+				});
+				$("form#delete").submit(function(event)
+				{
+				    if (!confirm("Are you sure you want to delete this product? This operation cannot be undone!"))
+				    {
+				        event.preventDefault();
+				        location.reload();
+				    }
+				});
+			});
+        </script>
+        <style type="text/css">
+	        .tg  {border-collapse:collapse;border-spacing:0;border-color:#aaa;}
+	        .tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aaa;color:#333;background-color:#fff;}
+	        .tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;border-color:#aaa;color:#fff;background-color:#f38630;}
+	        .tg .tg-3tf6{font-weight:bold;font-size:20px;font-family:Arial, Helvetica, sans-serif !important;;background-color:#32cb00;color:#ffffff;text-align:center}
+	        .tg .tg-baqh{text-align:center;vertical-align:top}
+	        .tg .tg-yq6s{background-color: #f0fce0;text-align:center;vertical-align:top}
+	        .button-container form,
+			.button-container form div
+	        {
+	            display: inline;
+			}
+
+			.button-container input
+	        {
+	            display: inline;
+	            vertical-align: middle;
+			}
+        </style>
+        <form action="view_project.html">
+            <input type="hidden" name="project_id" value="{{=project_id}}">
+            <input type="submit" value="Back to Project Page"/>
+        </form><br />
+        <h2 style="text-align: center; font-size: 40px">Enter Quotation Details</h2>
+        {{for i in org:}}
+            <h3 style="text-align: center; font-size: 30px">Customer Details:</h3>
+            <div style="text-align: center; font-size: 24px">
+	            Company Name:&nbsp;&nbsp;&nbsp;&nbsp;{{=i.name}}<br />
+	            Billing Address:&nbsp;&nbsp;&nbsp;&nbsp;{{=i.address}}<br />
+        {{pass}}
+        {{for i in project:}}
+            Project Delivery Address:&nbsp;&nbsp;&nbsp;&nbsp;{{=i.address}}<br />
+        {{pass}}
+            </div>
+        <form action="add_new_product_quotation.html">
+            <input type="hidden" name="document_id" value="{{=document_id}}" />
+            <input type="submit" value="Add new product" />
+        </form><br /><br />
+        <button id="show_products">Show/Hide Products</button><br /><br />
+        <div id="view_products">
+            <table class="tg">
+              <tr>
+                <th class="tg-3tf6">S.No</th>
+                <th class="tg-3tf6">Name</th>
+                <th class="tg-3tf6">Design Name</th>
+                <th class="tg-3tf6">Quantity</th>
+                <th class="tg-3tf6">Design Parameters</th>
+                <th class="tg-3tf6">Buttons</th>
+              </tr>
+               {{strings=["tg-yq6s","tg-baqh"]}}
+               {{num=0}}
+               {{for product in product_list:}}
+                    {{design_name = db(db.design.id==product.design_id).select(db.design.name)}}
+                    {{for name in design_name:}}
+                                {{Design_Name=name.name}}
+                    {{pass}}
+                    {{design_parameter_values=db(db.product_quotation_parameter_values.product_in_quotation_id==product.id).select()}}
+                    {{parm_names=[]}}
+                    {{parm_values=[]}}
+                    {{line=""}}
+                    {{for row in design_parameter_values:}}
+                        {{design_parameter_names=db(db.design_parameters.id==row.design_parameter_id).select(db.design_parameters.name)}}
+                            {{for name in design_parameter_names:}}
+                                {{parm_names.append(name.name)}}
+                            {{pass}}
+                            {{parm_values.append(row.parameter_value)}}
+                    {{pass}}
+                    {{for i in xrange(len(parm_names)):}}
+                        {{if(i<len(parm_names)-1):}}
+                            {{line=line+parm_names[i]+"="+str(parm_values[i])+","}}
+                        {{else:}}
+                            {{line=line+parm_names[i]+"="+str(parm_values[i])}}
+                        {{pass}}
+                    {{pass}}
+                    {{if(num%2==1):}}
+                        {{classname=strings[0]}}
+                        {{num += 1}}
+                    {{else:}}
+                        {{classname=strings[1]}}
+                        {{num += 1}}
+                    {{pass}}
+                    {{i = 0}}
+                    <tr>
+                        <td class={{=classname}}>{{=num}}</td>
+                        <td class={{=classname}}>{{=product.name}}</td>
+                        <td class={{=classname}}>{{=Design_Name}}</td>
+                        <td class={{=classname}}>{{=product.quantity}}</td>
+                        <td class={{=classname}}>{{=line}}</td>
+                        <td class={{=classname}}>
+                            <div class="button-container">
+                                <form action={{=URL('view_quotation_product.html')}}>
+	                                <input type="hidden" name="entry_id" value="{{=product.id}}" />
+	                                <input type="submit" value="View/Edit" />
+	                            </form>
+	                            <form  id = "delete" action="delete_quotation_product_helper">
+	                                <input type="hidden" name="{{=product.id}}" value="on">
+	                                <input type="hidden" name="document_id" value="{{=document_id}}" />
+	                                <input type="submit" value="Delete" />
+	                            </form>
+	                            <!--<form action={{=URL("copy_details.html")}}>
+                                    <input type="hidden" name="product_id" value="{{=product.id}}" />
+	                                <input type="submit" value="Clone" />-->
+	                            </form>
+                            </div>
+                        </td>
+                       {{i=i+1}}
+                    </tr>
+               {{pass}}
+            </table>
+        </div><br />
+        <form action="tax_discount.html">
+            <input type="hidden" name="document_id" value="{{=document_id}}" />
+            <input type="submit" value="Generate Quotation" />
+        </form><br /><br />
+        <!--<form action="generate_quotation.html">
+            <input type="hidden" name="project_id" value="{{=project_id}}" />
+            <input type="submit" value="" />
+        </form><br /><br />-->

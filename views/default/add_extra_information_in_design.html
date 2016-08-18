@@ -1,0 +1,38 @@
+{{extend 'layout.html'}}
+        {{if auth.user and auth.user.IS_ADMIN:}}
+
+            <script>
+                 $(document).ready(function() {
+	                $("#param").hide();
+	                $("#view_params").click(function () {
+		                $("#param").slideToggle("slow");
+	                });
+                });
+                function confirm_button()
+                {
+	                var r = confirm("Make sure that all extra information is entered and submitted already. All submitted extra information is displayed below. No additional data entered now will be submitted. Are you sure you want to complete adding the design?");
+	                if (r == true) {
+		                window.location.href = "{{=URL('admin_functions.html')}}";
+	                }
+                }
+            </script>
+            <br /><br />
+			<div style="text-align: center"><a href="#" id="view_params" style="font-size: 24px">View Design Parameters</a></div>
+            <div id="param">{{=grid}}</div>
+            <h2 style="text-align: center">Please Add Extra Information</h2><br><br>
+            {{=form}}
+            <h2 style="text-align: center">Extra Information</h2><br><br>
+            {{for i in range(len(extra_information_table)):}}
+	            <div style="text-align: center; font-size: 20px; margin: 10px">
+	                <b>{{=i+1}}.&nbsp;&nbsp;&nbsp;&nbsp;{{=extra_information_table[i].name}}</b><br />
+                    {{if extra_information_table[i].default_value:}}
+	                    Value: {{=extra_information_table[i].default_value}}<br />
+                    {{pass}}
+                    {{if extra_information_table[i].calculation:}}
+	                    Calculation: {{=extra_information_table[i].calculation}}<br />
+                    {{pass}}
+	            </div>
+            {{pass}}
+		{{else:}}
+		    <p style="font-size:24px">You do not have access to this page. Please contact administrator for access.</p>
+		{{pass}}

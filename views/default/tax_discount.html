@@ -1,0 +1,13 @@
+{{extend 'layout.html'}}
+        <form action={{=(URL('generate_quotation_details.html'))}}>
+            <input type='hidden' name='document_id' value={{=document_id}}>
+            <input type="submit" value="Back to Quotation Page" />
+        </form><br>
+        <h1 style="text-align: center">Enter Tax and Discount Details</h1><br /><br />
+        <form action="generate_quotation.html"style="text-align: center">
+            <input type="hidden" name="document_id" value="{{=document_id}}" />
+            <h2>Tax(Excise):&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="tax"></h2><br />
+            <h2><input type="checkbox" name="cst_check" value="1">CST:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="cst"></h2><br />
+            <h2>Discount:&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="discount"></h2><br /><br />
+            <input type="submit" value="Generate Quotation"><br />
+        </form>

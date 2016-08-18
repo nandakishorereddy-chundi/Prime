@@ -1,0 +1,37 @@
+{{extend 'layout.html'}}
+
+        <script>
+            $(document).ready(function(){
+                $("#add_div").hide()
+            });
+            function add_new_org()
+            {
+                var div1 = $("#select_div");
+                var div2 = $("#add_div");
+                div1.slideUp();
+                div2.slideDown();
+            }
+            function select_org()
+            {
+                var div1 = $("#select_div");
+                var div2 = $("#add_div");
+                div2.slideUp();
+                div1.slideDown();
+            }
+        </script>
+
+        <div id = "select_div">
+			<form action="add_project_details.html">
+				<select name="org_id">
+			    {{for entry in org_list:}}
+					<option value="{{=entry.id}}">{{=entry.name}}</option>
+			    {{pass}}
+				</select>
+				<input type="submit" value="Confirm and go to project details" />
+			</form><br /><br />
+            <button onclick="add_new_org()" value="Add_new_organization">Add new Organization</button>
+        </div>
+        <div id="add_div">
+            {{=form}}
+            <button onclick="select_org()" value="Select_existing_organization">Select existing Organization</button>
+        </div>

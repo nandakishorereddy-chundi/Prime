@@ -1,0 +1,118 @@
+{{extend 'layout.html'}}
+        {{if auth.user and auth.user.IS_ADMIN:}}
+			<div style="text-align: center" xmlns="http://www.w3.org/1999/html">
+            <div style="text-align: center; font-size: 20px; margin: 10px">
+                <form action={{=(URL('view_project.html', vars=dict(project_id = project_id)))}}>
+                    <input type='hidden' name='project_id' value={{=project_id}}>
+                    <input type="submit" value="Back to Project Page" />
+                </form><br>
+                {{for design in design_table:}}
+                    <a href="{{=URL('download',args=design.design_image)}}" target="blank"><img width="500px" src="{{=URL('download', args=design.design_image)}}" /></a><br /><br />
+                    <b>Description: {{=design.description}}</b><br /><br />
+                    {{for row in product_table:}}
+                        {{design_name=db(db.design.id==row.design_id).select(db.design.name)}}
+                        Name: {{=row.name}}<br>
+                        {{for name in design_name:}}
+                            Design Name: {{=name.name}}<br>
+                        {{pass}}
+                        Phase: {{=row.phase}}<br>
+                        Block Number: {{=row.block_number}}<br>
+                        Flat Number: {{=row.flat_number}}<br>
+                        Window Number: {{=row.window_number}}<br>
+                        {{if row.extra_comment is not None:}}
+                            Extra Comment: {{=row.extra_comment}}<br>
+                        {{pass}}
+                    {{pass}}
+            <br>
+            </div>
+                <form action="under_construction.html">
+                    <input type="submit" value="Edit above details" />
+                </form><br /><br />
+            {{pass}}
+            <h2>Design Parameters</h2>
+            <div style="text-align: center; font-size: 20px; margin: 10px">
+	            {{for i in range(len(design_parameters_table)):}}
+	                <b>{{=i+1}}.&nbsp;&nbsp;&nbsp;&nbsp;{{=design_parameters_table[i].name}}&nbsp;&nbsp;&nbsp;&nbsp;{{=design_parameters_table[i].codename}} = {{=parameter_value[i]}}</b><br>
+	            {{pass}}
+	            <br />
+            </div>
+            <form action="under_construction.html">
+                <input type="submit" value="Update Design Parameter Values" />
+            </form><br /><br />
+
+            <h2>Profile Details</h2>
+            <div style="text-align: center; font-size: 20px; margin: 10px">
+            {{for i in range(len(profile_table)):}}
+	                <b>{{=i+1}}.&nbsp;&nbsp;&nbsp;&nbsp;{{=profile_names[i].profile.name}}</b><br />
+	                Profile Position: {{=profile_table[i].profile_position}}<br />
+	                Profile Cut: {{=profile_table[i].cut}}<br />
+                    Quantity: <input type="text" name="quantity"  size="4" value="{{=profile_table[i].quantity}}" /><br />
+	                Length calculation: <input type="text" name="length"  size="4" value="{{=profile_table[i].length_calculation}}" /><br />
+	                Cost calculation: <input type="text" name="cost"  size="4" value="{{=profile_table[i].cost_calculation}}" /><br />
+            {{pass}}
+            <br />
+            </div>
+
+            <h2>Reinforcement Details</h2>
+            <div style="text-align: center; font-size: 20px; margin: 10px">
+            {{for i in range(len(reinforcement_table)):}}
+	                <b>{{=i+1}}.&nbsp;&nbsp;&nbsp;&nbsp;{{=reinforcement_names[i].reinforcement.name}}</b><br />
+	                Quantity: <input type="text" name="quantity"  size="4" value="{{=reinforcement_table[i].quantity}}" /><br />
+	                Length calculation: <input type="text" name="length"  size="4" value="{{=reinforcement_table[i].length_calculation}}" /><br />
+	                Cost calculation: <input type="text" name="cost"  size="4" value="{{=reinforcement_table[i].cost_calculation}}" /><br />
+            {{pass}}
+            <br />
+            </div>
+
+            <h2>Hardware and Accessories Details</h2>
+            <div style="text-align: center; font-size: 20px; margin: 10px">
+            {{for i in range(len(HAA_table)):}}
+	                <b>{{=i+1}}.&nbsp;&nbsp;&nbsp;&nbsp;{{=HAA_names[i].hardware_and_accessories.name}}</b><br>
+	                Quantity: <input type="text" name="quantity"  size="4" value="{{=HAA_table[i].quantity}}" /><br />
+	                Cost calculation: <input type="text" name="cost"  size="4" value="{{=HAA_table[i].cost_calculation}}" /><br />
+            {{pass}}
+            <br />
+            </div>
+
+            <h2>Glass Details</h2>
+            <div style="text-align: center; font-size: 20px; margin: 10px">
+            {{for i in range(len(glass_table)):}}
+	                <b>{{=i+1}}.&nbsp;&nbsp;&nbsp;&nbsp;{{=glass_names[i].glass.name}}</b><br />
+                    Width Calculation: <input type="text" name="width"  size="4" value="{{=glass_table[i].width_calculation}}" /><br />
+                    Height Calculation: <input type="text" name="height"  size="4" value="{{=glass_table[i].height_calculation}}" /><br />
+	                Quantity: <input type="text" name="quantity"  size="4" value="{{=glass_table[i].quantity}}" /><br />
+	                Cost calculation: <input type="text" name="cost"  size="4" value="{{=glass_table[i].cost_calculation}}" /><br />
+            {{pass}}
+            <br />
+            </div>
+
+            <h2>Installation Material Details</h2>
+            <div style="text-align: center; font-size: 20px; margin: 10px">
+            {{for i in range(len(material_table)):}}
+	                <b>{{=i+1}}.&nbsp;&nbsp;&nbsp;&nbsp;{{=material_names[i].installation_material.name}}</b><br />
+	                Quantity: <input type="text" name="quantity"  size="4" value="{{=material_table[i].quantity}}" /><br />
+	                Cost calculation: <input type="text" name="cost"  size="4" value="{{=material_table[i].cost_calculation}}" /><br />
+            {{pass}}
+            <br />
+            </div>
+
+            <h2>Extra Information</h2>
+            <div style="text-align: center; font-size: 20px; margin: 10px">
+            {{for i in range(len(extra_information_table)):}}
+	                <b>{{=i+1}}.&nbsp;&nbsp;&nbsp;&nbsp;{{=extra_information_table[i].name}}</b><br />
+                    {{if extra_information_table[i].default_value:}}
+	                    Value:{{=extra_information_table[i].default_value}}<br />
+                    {{pass}}
+                    {{if extra_information_table[i].calculation:}}
+	                    Calculation: <input type="text" name="calculation"  size="4" value="{{=extra_information_table[i].calculation}}" /><br />
+                    {{pass}}
+            {{pass}}
+            <br />
+            </div>
+            <form action="under_construction.html">
+                <input type="submit" value="Update Details" />
+            </form><br /><br />
+        </div>
+		{{else:}}
+		    <p style="font-size:24px">You do not have access to this page. Please contact administrator for access.</p>
+		{{pass}}

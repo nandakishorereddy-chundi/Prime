@@ -1,0 +1,53 @@
+{{extend 'layout.html'}}
+
+        <script>
+            $(document).ready(function(){
+                $("#add_div").hide()
+            });
+            function add_new_poc()
+            {
+                var div1 = $("#select_div");
+                var div2 = $("#add_div");
+                div1.slideUp();
+                div2.slideDown();
+            }
+            function select_poc()
+            {
+                var div1 = $("#select_div");
+                var div2 = $("#add_div");
+                div2.slideUp();
+                div1.slideDown();
+            }
+        </script>
+
+        <div id = "select_div">
+			<form action="../add_POC_helper">
+				<select name="POC_id">
+			    {{for entry in POC_list:}}
+					<option value="{{=entry.id}}">{{=entry.name}}</option>
+			    {{pass}}
+				</select>
+                <input type="hidden" name="project_id" value="{{=project_id}}" />
+                <input type="hidden" name="org_id" value="{{=org_id}}" />
+				<input type="submit" value="Add this person as a point of contact to this project" />
+			</form><br /><br />
+            <button onclick="add_new_poc()" value="Add_new_POC">Add new Point of Contact Entry</button>
+        </div>
+        <div id="add_div">
+            {{=form}}
+            <button onclick="select_poc()" value="Select_existing_organization">Select existing Point of Contact</button>
+        </div>
+        <form action="../view_project.html">
+            <input type="hidden" name="project_id" value="{{=project_id}}" />
+            <input type="submit" value="Confirm and move onto project page" />
+        </form><br /><br />
+
+        <h3 style="text-align: center">Points of Contact linked to this project</h3>
+        {{for i in range(len(project_POC_list)):}}
+	            <div style="text-align: center; font-size: 20px; margin: 10px">
+	                <b>{{=i+1}}.&nbsp;&nbsp;&nbsp;&nbsp;{{=project_POC_list[i].name}}</b><br />
+                    Email: {{=project_POC_list[i].email}}<br />
+                    Phone Number: {{=project_POC_list[i].phone_number}}<br />
+	                Designation: {{=project_POC_list[i].designation}}<br />
+	            </div>
+        {{pass}}

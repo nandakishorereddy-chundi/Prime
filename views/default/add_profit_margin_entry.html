@@ -1,0 +1,6 @@
+{{extend 'layout.html'}}
+        {{if auth.user and auth.user.IS_ADMIN:}}
+            {{=form}}
+        {{else:}}
+            <p style="font-size:24px">You do not have access to this page. Please contact administrator for access.</p>
+        {{pass}}

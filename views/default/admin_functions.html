@@ -1,0 +1,79 @@
+{{extend 'layout.html'}}
+        {{if auth.user and auth.user.IS_ADMIN:}}
+
+            <script>
+                 $(document).ready(function() {
+	                $("#view_table").hide();
+	                $("#show_table").click(function () {
+		                $("#view_table").slideToggle("slow");
+	                });
+                });
+            </script>
+
+			<form action="add_new_admin.html">
+				<input type="submit" value="Add New Admin"/>
+			</form><br />
+            <form action="remove_admin.html">
+				<input type="submit" value="Remove Admin Status"/>
+			</form><br />
+            <form action="remove_user.html">
+				<input type="submit" value="Remove User"/>
+			</form><br />
+            <br /><br />
+
+            <button id="show_table">View/Hide Profit Margin Table</button><br />
+            <div id="view_table">
+	            <h3>Entries in Profit Margin Table:</h3>
+                <p>Name&nbsp;&nbsp;&nbsp;percentage</p>
+				{{for entry in profit_table:}}
+	                <p><b>{{=entry.name}}</b>&nbsp;&nbsp;&nbsp;{{=entry.percentage}}</p>
+	            {{pass}}
+            </div><br />
+            <form action="add_profit_margin_entry.html">
+				<input type="submit" value="Add new entry to profit margin table"/>
+			</form><br />
+			<form action="update_profit_margin_entry.html">
+				<select name="entry_id">
+	                {{for entry in profit_table:}}
+						<option value="{{=entry.id}}">{{=entry.name}}</option>
+	                {{pass}}
+				</select>
+				<input type="submit" name="update" value="Update entry in profit margin table"/>
+			</form>
+			<br /><br />
+
+
+            <form action="add_design.html">
+				<input type="submit" value="Add New Design"/>
+			</form><br />
+             <form action="remove_design.html">
+				<input type="submit" value="Delete Existing Design"/>
+			</form><br />
+            <form action="view_design.html">
+				<select name="entry_id">
+	                {{for entry in design_table:}}
+						<option value="{{=entry.id}}">{{=entry.name}}</option>
+	                {{pass}}
+				</select>
+				<input type="submit" name="update" value="View/Update entry in design table"/>
+			</form>
+            <br /><br />
+            <form action="copy_design_details.html">
+				<select name="design_id">
+	                {{for entry in design_table:}}
+						<option value="{{=entry.id}}">{{=entry.name}}</option>
+	                {{pass}}
+				</select>
+				<input type="submit" name="update" value="Copy this design and make new design"/>
+			</form>
+            <br /><br />
+
+			<form action="give_approval.html">
+				<input type="submit" value="Give Approval to new users"/>
+			</form><br />
+            <form action="get_logtime.html">
+				<input type="submit" value="View Logs"/>
+			</form><br />
+        {{else:}}
+            <p style="font-size:24px">You do not have access to this page. Please contact administrator for access.</p>
+        {{pass}}

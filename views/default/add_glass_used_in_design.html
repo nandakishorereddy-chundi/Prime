@@ -1,0 +1,36 @@
+{{extend 'layout.html'}}
+        {{if auth.user and auth.user.IS_ADMIN:}}
+
+            <script>
+                 $(document).ready(function() {
+	                $("#param").hide();
+	                $("#view_params").click(function () {
+		                $("#param").slideToggle("slow");
+	                });
+                });
+                function confirm_button()
+                {
+	                var r = confirm("Make sure that all glass details are entered and submitted already. All submitted glass details are displayed below. No additional data entered now will be submitted. Are you sure you want to continue to installation material details?");
+	                if (r == true) {
+		                window.location.href = "{{=URL('add_material_used_in_design',args=design_id)}}";
+	                }
+                }
+            </script>
+            <br /><br />
+			<div style="text-align: center"><a href="#" id="view_params" style="font-size: 24px">View Design Parameters</a></div>
+            <div id="param">{{=grid}}</div>
+            <h2 style="text-align: center">Please Add Glass Data</h2><br><br>
+            {{=form}}
+            <h2 style="text-align: center">Glass Data</h2><br><br>
+            {{for i in range(len(glass_table)):}}
+	            <div style="text-align: center; font-size: 20px; margin: 10px">
+	                <b>{{=i+1}}.&nbsp;&nbsp;&nbsp;&nbsp;{{=names[i].glass.name}}</b><br />
+                    Width Calculation: {{=glass_table[i].width_calculation}}<br />
+                    Height Calculation: {{=glass_table[i].height_calculation}}<br />
+	                Quantity: {{=glass_table[i].quantity}}<br />
+	                Cost calculation: {{=glass_table[i].cost_calculation}}<br />
+	            </div>
+            {{pass}}
+		{{else:}}
+		    <p style="font-size:24px">You do not have access to this page. Please contact administrator for access.</p>
+		{{pass}}

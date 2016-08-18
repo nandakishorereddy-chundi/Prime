@@ -1,0 +1,114 @@
+{{extend 'layout.html'}}
+        {{if auth.user and auth.user.IS_ADMIN:}}
+            <form action="../admin_functions.html">
+	            <input type="submit" value="Back to Admin Functions"/>
+	        </form><br />
+	        <div style="text-align: center">
+	            {{for design in design_table:}}
+					<h1 style="text-decoration: underline">{{=design.name}}</h1><br />
+		            <a href="{{=URL('download',args=design.design_image)}}" target="blank"><img width="500px" src="{{=URL('download', args=design.design_image)}}" /></a><br /><br />
+					<b>Description: {{=design.description}}</b><br /><br />
+	                <form action="../update_design.html">
+	                    <input type="hidden" name="design_id" value="{{=design_id}}" />
+	                    <input type="submit" value="Update these details" />
+	                </form>
+	            {{pass}}
+	            <h2>Design Parameters</h2>
+	            <div style="text-align: center; font-size: 20px; margin: 10px">
+		            {{for i in range(len(design_parameters_table)):}}
+		                <b>{{=i+1}}.&nbsp;&nbsp;&nbsp;&nbsp;{{=design_parameters_table[i].name}}&nbsp;&nbsp;&nbsp;&nbsp;{{=design_parameters_table[i].codename}}</b>
+		                &nbsp;&nbsp;&nbsp;&nbsp;<a href="{{=URL('update_design_parameters.html',args=design_parameters_table[i].id)}}">Update this parameter</a>
+			            <br />
+		            {{pass}}
+		            <br />
+		            <a href="{{=URL('add_update_design_parameters.html',args=design_id)}}">Add new parameters</a><br /><br />
+	            </div>
+
+	            <h2>Profile Details</h2>
+	            <div style="text-align: center; font-size: 20px; margin: 10px">
+	            {{for i in range(len(profile_table)):}}
+		                <b>{{=i+1}}.&nbsp;&nbsp;&nbsp;&nbsp;{{=profile_names[i].profile.name}}</b>
+	                    &nbsp;&nbsp;&nbsp;&nbsp;<a href="{{=URL('update_profile_detail.html',args=profile_table[i].id)}}">Update/Delete this profile detail</a><br />
+		                Profile Position: {{=profile_table[i].profile_position}}<br />
+		                Profile Cut: {{=profile_table[i].cut}}<br />
+		                Quantity: {{=profile_table[i].quantity}}<br />
+		                Length calculation: {{=profile_table[i].length_calculation}}<br />
+		                Cost calculation: {{=profile_table[i].cost_calculation}}<br />
+	            {{pass}}
+	            <br />
+	            <a href="{{=URL('add_update_profile_detail.html',args=design_id)}}">Add new profile details</a><br /><br />
+	            </div>
+
+	            <h2>Reinforcement Details</h2>
+	            <div style="text-align: center; font-size: 20px; margin: 10px">
+	            {{for i in range(len(reinforcement_table)):}}
+		                <b>{{=i+1}}.&nbsp;&nbsp;&nbsp;&nbsp;{{=reinforcement_names[i].reinforcement.name}}</b>
+	                    &nbsp;&nbsp;&nbsp;&nbsp;<a href="{{=URL('update_reinforcement_detail.html',args=reinforcement_table[i].id)}}">Update/Delete this reinforcement detail</a><br />
+		                Quantity: {{=reinforcement_table[i].quantity}}<br />
+		                Length calculation: {{=reinforcement_table[i].length_calculation}}<br />
+		                Cost calculation: {{=reinforcement_table[i].cost_calculation}}<br />
+	            {{pass}}
+	            <br />
+	            <a href="{{=URL('add_update_reinforcement_detail.html',args=design_id)}}">Add new reinforcement details</a><br /><br />
+	            </div>
+
+	            <h2>Hardware and Accessories Details</h2>
+	            <div style="text-align: center; font-size: 20px; margin: 10px">
+	            {{for i in range(len(HAA_table)):}}
+		                <b>{{=i+1}}.&nbsp;&nbsp;&nbsp;&nbsp;{{=HAA_names[i].hardware_and_accessories.name}}</b>
+	                    &nbsp;&nbsp;&nbsp;&nbsp;<a href="{{=URL('update_HAA_detail.html',args=HAA_table[i].id)}}">Update/Delete this hardware detail</a><br />
+		                Quantity: {{=HAA_table[i].quantity}}<br />
+		                Cost calculation: {{=HAA_table[i].cost_calculation}}<br />
+	            {{pass}}
+	            <br />
+	            <a href="{{=URL('add_update_HAA_detail.html',args=design_id)}}">Add new hardware details</a><br /><br />
+	            </div>
+
+	            <h2>Glass Details</h2>
+	            <div style="text-align: center; font-size: 20px; margin: 10px">
+	            {{for i in range(len(glass_table)):}}
+		                <b>{{=i+1}}.&nbsp;&nbsp;&nbsp;&nbsp;{{=glass_names[i].glass.name}}</b>
+	                    &nbsp;&nbsp;&nbsp;&nbsp;<a href="{{=URL('update_glass_detail.html',args=glass_table[i].id)}}">Update/Delete this glass detail</a><br />
+	                    Width Calculation: {{=glass_table[i].width_calculation}}<br />
+	                    Height Calculation: {{=glass_table[i].height_calculation}}<br />
+		                Quantity: {{=glass_table[i].quantity}}<br />
+		                Cost calculation: {{=glass_table[i].cost_calculation}}<br />
+	            {{pass}}
+	            <br />
+	            <a href="{{=URL('add_update_glass_detail.html',args=design_id)}}">Add new glass details</a><br /><br />
+	            </div>
+
+	            <h2>Installation Material Details</h2>
+	            <div style="text-align: center; font-size: 20px; margin: 10px">
+	            {{for i in range(len(material_table)):}}
+		                <b>{{=i+1}}.&nbsp;&nbsp;&nbsp;&nbsp;{{=material_names[i].installation_material.name}}</b>
+	                    &nbsp;&nbsp;&nbsp;&nbsp;<a href="{{=URL('update_material_detail.html',args=material_table[i].id)}}">Update/Delete this installation material detail</a><br />
+		                Quantity: {{=material_table[i].quantity}}<br />
+		                Cost calculation: {{=material_table[i].cost_calculation}}<br />
+	            {{pass}}
+	            <br />
+	            <a href="{{=URL('add_update_material_detail.html',args=design_id)}}">Add new installation material details</a><br /><br />
+	            </div>
+
+	            <h2>Extra Information</h2>
+	            <div style="text-align: center; font-size: 20px; margin: 10px">
+	            {{for i in range(len(extra_information_table)):}}
+		                <b>{{=i+1}}.&nbsp;&nbsp;&nbsp;&nbsp;{{=extra_information_table[i].name}}</b>
+	                    &nbsp;&nbsp;&nbsp;&nbsp;<a href="{{=URL('update_extra_information.html',args=extra_information_table[i].id)}}">Update/Delete this information</a><br />
+	                    {{if extra_information_table[i].default_value:}}
+		                    Value: {{=extra_information_table[i].default_value}}<br />
+	                    {{pass}}
+	                    {{if extra_information_table[i].calculation:}}
+		                    Calculation: {{=extra_information_table[i].calculation}}<br />
+	                    {{pass}}
+	            {{pass}}
+	            <br />
+	            <a href="{{=URL('add_update_extra_information.html',args=design_id)}}">Add new extra information</a><br /><br />
+	            </div>
+
+
+	        </div>
+            <h2>Note: Make sure to update design parameters of existing products using this design if you decide to apply these changes to the products.</h2>
+		{{else:}}
+		    <p style="font-size:24px">You do not have access to this page. Please contact administrator for access.</p>
+		{{pass}}

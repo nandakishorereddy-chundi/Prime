@@ -1,0 +1,9 @@
+{{extend 'layout.html'}}
+        <form action="delete_product_helper">
+	        {{for entry in product_list:}}
+	            {{=entry.name}}&nbsp;&nbsp;&nbsp;&nbsp;{{=entry.block_number}}&nbsp;&nbsp;&nbsp;&nbsp;{{=entry.flat_number}}&nbsp;&nbsp;&nbsp;&nbsp;{{=entry.window_number}}&nbsp;&nbsp;&nbsp;&nbsp;{{=entry.phase}}&nbsp;&nbsp;&nbsp;&nbsp;
+	            <input type="checkbox" name="{{=entry.id}}" /><br />
+	        {{pass}}
+            <input type='hidden' name='project_id' value={{=project_id}}>
+			<input type="submit" name="delete" value="Delete these Products" />
+		</form>

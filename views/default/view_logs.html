@@ -1,0 +1,8 @@
+{{extend 'layout.html'}}
+        <form action="admin_functions.html">
+			<input type="submit" value="Back to Admin Functions"/>
+		</form><br />
+		<h3>Entries in Logs:</h3>
+		{{for entry in log_table:}}
+            <p style="font-size: 24px"><b>{{=entry.log_time}}:</b>&nbsp;&nbsp;&nbsp;{{=entry.log_message}}</p>
+        {{pass}}

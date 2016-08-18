@@ -1,0 +1,63 @@
+{{extend 'layout.html'}}
+		<br /><br />
+        <form action="search.html" style = "text-align: center">
+            <input type="text" name="search" > &nbsp&nbsp
+            <input type="radio" name="option" value="project" checked> Project
+            <input type="radio" name="option" value="organisation"> Organisation
+            <input type="radio" name="option" value="point_of_contact"> Point Of Contact &nbsp&nbsp&nbsp&nbsp&nbsp
+            <input type="submit" value="Search" />
+		</form><br />
+        <!--<form action="admin_functions.html">
+			<input type="submit" value="Admin Functions"/>
+		</form><br />
+        <form action="inventory_management.html">
+			<input type="submit" value="Inventory Management"/>
+		</form><br />-->
+		 <form action="add_new_project.html">
+			<input type="submit" value="Add New Project"/>
+		</form><br />
+        <form action="delete_project.html">
+			<input type="submit" value="Delete Project"/>
+		</form><br />
+        <hr />
+
+        <form action="add_new_organization.html">
+			<input type="submit" value="Add New Organization"/>
+		</form><br />
+        <form action="update_organization.html">
+			<select name="entry_id">
+                {{for entry in org_table:}}
+					<option value="{{=entry.id}}">{{=entry.name}}</option>
+                {{pass}}
+			</select>
+			<input type="submit" name="update" value="Update Organization Details"/>
+		</form><br />
+		<hr />
+
+        <form action="add_new_POC.html">
+			<input type="submit" value="Add New Point of Contact"/>
+		</form><br />
+        <form action="update_POC.html">
+			<select name="entry_id">
+                {{for entry in POC_table:}}
+					<option value="{{=entry.id}}">{{=entry.name}}</option>
+                {{pass}}
+			</select>
+			<input type="submit" name="update" value="Update Point of Contact Details"/>
+		</form><br />
+        <form action="delete_POC.html">
+			<input type="submit" value="Delete Point of Contact Entries"/>
+		</form><br />
+		<hr />
+
+        <form action="add_installation_details.html">
+            <input type="submit" value="Add Installation Details" />
+        </form><br />
+        <form action="update_installation_details.html">
+			<select name="entry_id">
+                {{for entry in Installation_details_table:}}
+					<option value="{{=entry.id}}">{{=entry.name}}</option>
+                {{pass}}
+			</select>
+			<input type="submit" name="update" value="Update Installation Details"/>
+		</form><br />

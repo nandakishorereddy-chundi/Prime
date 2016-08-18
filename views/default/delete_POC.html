@@ -1,0 +1,9 @@
+{{extend 'layout.html'}}
+         <form action="delete_POC_helper">
+	        {{for entry in POC_list:}}
+	            {{=entry.name}}&nbsp;&nbsp;&nbsp;&nbsp;{{=entry.email}}&nbsp;&nbsp;&nbsp;&nbsp;{{=entry.phone_number}}&nbsp;&nbsp;&nbsp;&nbsp;{{=entry.designation}}&nbsp;&nbsp;&nbsp;&nbsp;
+	            <input type="checkbox" name="{{=entry.id}}" /><br />
+	        {{pass}}
+			<input type="submit" name="delete" value="Unlink from all Projects and Delete these Point of Contacts"/>
+             <h2>Note: Deleting Point of Contact entries will unlink them from all projects where they are linked</h2>
+		</form>

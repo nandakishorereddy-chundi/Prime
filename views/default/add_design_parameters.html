@@ -1,0 +1,107 @@
+{{extend 'layout.html'}}
+		{{if auth.user and auth.user.IS_ADMIN:}}
+
+			<script>
+			    var count = 1;
+				$(document).ready(function() {
+			        var box = add_new_param();
+			        box.setAttribute("value", "Width");
+			        box = add_new_param();
+			        box.setAttribute("value", "Height");
+                    document.getElementById("pass_form").style.display = "none";
+
+					$("#add").click(function() {
+			            add_new_param();
+					});
+
+                    $("#submit").click(function() {
+                        var flag = 0;
+                        var temp = "";
+                        for(var i = 1; i < count - 1; i++)
+                        {
+                            //alert(count);
+                            //alert(document.getElementById("box"+ i.toString()).value);
+                            if(document.getElementById("box" + i.toString()).value == '' && flag == 0)
+                            {
+                                flag = 1;
+                                alert("Please fill parameter names in empty spaces or delete corresponding parameters!");
+                            }
+                            temp += document.getElementById("box" + i.toString()).value + ",";
+                        }
+                        if(document.getElementById("box" + i.toString()).value == '' && flag == 0)
+                        {
+                            flag = 1;
+                            alert("Please fill parameter names in empty spaces or delete corresponding parameters!");
+                        }
+                        temp += document.getElementById("box" + i.toString()).value;
+                        document.getElementById("pass").setAttribute("value", temp);
+                        if(flag == 0)
+                        {
+	                        document.getElementById("pass_form").submit();
+                        }
+                    });
+				});
+                $(document).on("click", ".delete", function(){
+                    delete_param(this);
+                });
+			    function add_new_param() {
+			        var text = "Parameter " + count.toString() + ": ";
+			        var para = document.createElement("b");
+                    para.setAttribute("id", "para" + count.toString());
+			        para.innerHTML = text;
+			        var box = document.createElement("input");
+                    box.setAttribute("id", "box" + count.toString());
+			        box.setAttribute("type", "text");
+			        box.setAttribute("style", "text-align: center");
+			        var delete_param = document.createElement("a");
+			        delete_param.setAttribute("id", "delete" + count.toString());
+                    delete_param.setAttribute("class", "delete");
+			        delete_param.setAttribute("href", "#");
+			        delete_param.appendChild(document.createTextNode("Delete"));
+			        var add = document.getElementById("add");
+			        var form_extra = document.getElementById("param");
+			        var space = document.createElement("br");
+                    space.setAttribute("id", "space"+count.toString());
+			        form_extra.insertBefore(space,add);
+			        form_extra.insertBefore(delete_param,space);
+			        form_extra.insertBefore(box,delete_param);
+			        form_extra.insertBefore(para,box);
+			        count++;
+			        return box;
+			    }
+
+                function delete_param(button) {
+					//alert(button.getAttribute("id"));
+                    var delete_id = button.getAttribute("id");
+                    var num = delete_id.charCodeAt(6) - 48;
+                    //alert(num);
+                    $("#para"+num.toString()).remove();
+                    $("#box"+num.toString()).remove();
+                    $("#space"+num.toString()).remove();
+                    button.remove();
+                    for(var i = num + 1; i < count; i++)
+                    {
+                        var para = document.getElementById("para"+ i.toString());
+                        para.innerHTML = "Parameter " + (i-1).toString() + ": ";
+                        para.setAttribute("id", "para" + (i-1).toString());
+                        document.getElementById("box"+ i.toString()).setAttribute("id", "box" + (i-1).toString());
+                        document.getElementById("delete"+ i.toString()).setAttribute("id", "delete" + (i-1).toString());
+                        document.getElementById("space"+ i.toString()).setAttribute("id", "space" + (i-1).toString());
+                    }
+                    count--;
+                }
+			</script>
+
+            <h2 style="text-align: center">Please Add Design Parameters</h2><br><br>
+			<form id='param' style="text-align: center">
+                <input type="button" id="add" value="Add New Parameter">
+                <input type="button" id="submit" value="Done">
+			</form><br /><br /><br />
+            <form action = "../add_design_parameters_helper" id="pass_form">
+                <input type="text" name = "params" id="pass">
+                <input type="text" name = "design_id" id="design_id" value="{{=design_id}}">
+            </form>
+            <h4 style="text-align: center"> Parameter names should not contain commas(,)</h4>
+		{{else:}}
+		    <p style="font-size:24px">You do not have access to this page. Please contact administrator for access.</p>
+		{{pass}}

@@ -1,0 +1,9 @@
+{{extend 'layout.html'}}
+         <form action="delete_project_helper">
+	        {{for entry in project_list:}}
+	            {{=entry.name}}&nbsp;&nbsp;&nbsp;&nbsp;{{=entry.address}}&nbsp;&nbsp;&nbsp;&nbsp;{{=entry.description}}&nbsp;&nbsp;&nbsp;&nbsp;{{=entry.phase}}&nbsp;&nbsp;&nbsp;&nbsp;
+	            <input type="checkbox" name="{{=entry.id}}" /><br />
+	        {{pass}}
+			<input type="submit" name="delete" value="Delete these Projects and all their contents"/>
+            <h2>Note: Deleting project entries will delete all products and documents related to the corresponding deleted projects</h2>
+		</form>

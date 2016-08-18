@@ -1,0 +1,44 @@
+{{extend 'layout.html'}}
+        <script>
+            $(document).ready(function(){
+                $("#add_div").hide()
+            });
+            function add_new_org()
+            {
+                var div1 = $("#select_div");
+                var div2 = $("#add_div");
+                div1.slideUp();
+                div2.slideDown();
+            }
+            function select_org()
+            {
+                var div1 = $("#select_div");
+                var div2 = $("#add_div");
+                div2.slideUp();
+                div1.slideDown();
+            }
+        </script>
+
+        <h2 style="text-align: center">Enter Installation Details</h2>
+        <h3 style="text-align: center">Product Details</h3>
+        <p style="text-align: center">Name: &nbsp;&nbsp;&nbsp;&nbsp;{{=product.name}}<br />
+        Block Number: &nbsp;&nbsp;&nbsp;&nbsp;{{=product.block_number}}<br />
+        Flat Number: &nbsp;&nbsp;&nbsp;&nbsp;{{=product.flat_number}}<br />
+        Window Number: &nbsp;&nbsp;&nbsp;&nbsp;{{=product.window_number}}<br />
+        </p>
+        <div id = "select_div">
+			<form action="add_installation_logs.html">
+				<select name="install_id">
+			    {{for entry in inst_list:}}
+					<option value="{{=entry.id}}">{{=entry.name}}</option>
+			    {{pass}}
+				</select>
+                <input type="hidden" name="product_id" value="{{=product.id}}" />
+				<input type="submit" value="Confirm these installation details" />
+			</form><br /><br />
+            <button onclick="add_new_org()" value="Add_new_organization">Add new Installation Details</button>
+        </div>
+        <div id="add_div">
+            {{=form}}
+            <button onclick="select_org()" value="Select_existing_organization">Select existing Installation Details</button>
+        </div>

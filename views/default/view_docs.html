@@ -1,0 +1,40 @@
+{{extend 'layout.html'}}
+        <h2>Quotations</h2>
+        {{for doc in documents:}}
+			{{if doc.document_type == 'Quotation':}}
+                <a style="font-size: 28px" href={{=URL('download', args=doc.document_file)}}>{{=doc.name}}</a>
+            {{pass}}
+        {{pass}}
+		<hr />
+        <h2>Production Documents</h2>
+        {{for doc in documents:}}
+			{{if doc.document_type == 'Production Document':}}
+                <a style="font-size: 28px" href={{=URL('download', args=doc.document_file)}}>{{=doc.name}}</a>
+            {{pass}}
+        {{pass}}
+		<hr />
+        <!--<h2>Raw Material Reports</h2>
+        {{for doc in documents:}}
+			{{if doc.document_type == 'Raw Material Report':}}
+                <a style="font-size: 28px" href={{=URL('download', args=doc.document_file)}}>{{=doc.name}}</a>
+            {{pass}}
+        {{pass}}
+		<hr />-->
+        <h2>Completion Letters</h2>
+        {{for doc in documents:}}
+			{{if doc.document_type == 'Completion Letter':}}
+                <a style="font-size: 28px" href={{=URL('download', args=doc.document_file)}}>{{=doc.name}}</a>
+            {{pass}}
+        {{pass}}
+		<hr />
+        <h2>Other Documents</h2>
+        {{for doc in documents:}}
+			{{if doc.document_type == 'Other':}}
+                <a style="font-size: 28px" href={{=URL('download', args=doc.document_file)}}>{{=doc.name}}</a>
+            {{pass}}
+        {{pass}}
+		<hr />
+        <form action="view_project">
+            <input type="hidden" name="project_id" value="{{=project_id}}" />
+			<input type="submit" value="Back to Project Page"/>
+		</form><br />

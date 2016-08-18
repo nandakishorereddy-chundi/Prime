@@ -1,0 +1,112 @@
+{{extend 'layout.html'}}
+        <script>
+			$(document).ready(function(){
+               $('.hid').hide();
+			   $('.show').click(function(){
+					$(this).siblings('.hid').slideToggle("slow");
+				});
+			});
+		</script>
+		<br /><br />
+        <form action={{=(URL('view_quotation_product.html'))}}>
+                <input type='hidden' name='entry_id' value={{=product.id}}>
+                <input type="submit" value="Back to View/Edit Product Page" />
+        </form><br>
+        <h1 style="text-align: center">Choose details which go into the quotation</h1><br /><br />
+        <form action="update_quotation_parameters">
+	        <div>
+	            <button class="show" type="button">Expand Parameter Details</button>
+	            <div class="hid" style="font-size: 20px; background-color: #e6e6e6">
+	                {{for i in parameter_table:}}
+                        {{if i.design_parameters.name.lower() == 'width' or i.design_parameters.name.lower() == 'height':}}
+	                        <input type="checkbox" name="parameter" value="{{=i.design_parameters.id}}" checked="checked" disabled="true">{{=i.design_parameters.name}}&nbsp;&nbsp;&nbsp;&nbsp;{{=i.product_quotation_parameter_values.parameter_value}}<br />
+                            <input type="hidden" name="parameter" value="{{=i.design_parameters.id}}">
+	                    {{elif i.design_parameters.id in choose_params:}}
+	                        <input type="checkbox" name="parameter" value="{{=i.design_parameters.id}}" checked="checked">{{=i.design_parameters.name}}&nbsp;&nbsp;&nbsp;&nbsp;{{=i.product_quotation_parameter_values.parameter_value}}<br />
+	                    {{else:}}
+	                        <input type="checkbox" name="parameter" value="{{=i.design_parameters.id}}">{{=i.design_parameters.name}}&nbsp;&nbsp;&nbsp;&nbsp;{{=i.product_quotation_parameter_values.parameter_value}}<br />
+	                    {{pass}}
+	                {{pass}}
+	            </div>
+	        </div><br /><br />
+	        <div>
+	            <button class="show" type="button">Expand Profile Details</button>
+	            <div class="hid" style="font-size: 20px; background-color: #e6e6e6">
+	                {{for i in profile_names:}}
+                        {{if i.profile.id in choose_profile:}}
+	                        <input type="checkbox" name="profile" value="{{=i.profile.id}}" checked="checked">{{=i.profile.name}}&nbsp;&nbsp;&nbsp;&nbsp;{{=i.profile.profile_code}}<br />
+                        {{else:}}
+                            <input type="checkbox" name="profile" value="{{=i.profile.id}}">{{=i.profile.name}}&nbsp;&nbsp;&nbsp;&nbsp;{{=i.profile.profile_code}}<br />
+                        {{pass}}
+	                {{pass}}
+	            </div>
+	        </div><br /><br />
+	        <div>
+	            <button class="show" type="button">Expand Reinforcement Details</button>
+	            <div class="hid" style="font-size: 20px; background-color: #e6e6e6">
+	                {{for i in reinforcement_names:}}
+                        {{if i.reinforcement.id in choose_reinforcement:}}
+	                        <input type="checkbox" name="reinforcement" value="{{=i.reinforcement.id}}" checked="checked">{{=i.reinforcement.name}}&nbsp;&nbsp;&nbsp;&nbsp;{{=i.reinforcement.description}}<br />
+                        {{else:}}
+                            <input type="checkbox" name="reinforcement" value="{{=i.reinforcement.id}}">{{=i.reinforcement.name}}&nbsp;&nbsp;&nbsp;&nbsp;{{=i.reinforcement.description}}<br />
+                        {{pass}}
+	                {{pass}}
+	            </div>
+	        </div><br /><br />
+	        <div>
+	            <button class="show" type="button">Expand Hardware Details</button>
+	            <div class="hid" style="font-size: 20px; background-color: #e6e6e6">
+	                {{for i in HAA_names:}}
+                        {{if i.hardware_and_accessories.id in choose_hardware:}}
+	                        <input type="checkbox" name="hardware" value="{{=i.hardware_and_accessories.id}}" checked="checked">{{=i.hardware_and_accessories.name}}&nbsp;&nbsp;&nbsp;&nbsp;{{=i.hardware_and_accessories.description}}<br />
+                        {{else:}}
+                            <input type="checkbox" name="hardware" value="{{=i.hardware_and_accessories.id}}">{{=i.hardware_and_accessories.name}}&nbsp;&nbsp;&nbsp;&nbsp;{{=i.hardware_and_accessories.description}}<br />
+                        {{pass}}
+	                {{pass}}
+	            </div>
+	        </div><br /><br />
+	        <div>
+	            <button class="show" type="button">Expand Glass Details</button>
+	            <div class="hid" style="font-size: 20px; background-color: #e6e6e6">
+	                {{for i in glass_names:}}
+                        {{if i.glass.id in choose_glass:}}
+	                        <input type="checkbox" name="glass" value="{{=i.glass.id}}" checked="checked">{{=i.glass.name}}&nbsp;&nbsp;&nbsp;&nbsp;{{=i.glass.description}}<br />
+                        {{else:}}
+                            <input type="checkbox" name="glass" value="{{=i.glass.id}}">{{=i.glass.name}}&nbsp;&nbsp;&nbsp;&nbsp;{{=i.glass.description}}<br />
+                        {{pass}}
+	                {{pass}}
+	            </div>
+	        </div><br /><br />
+	        <div>
+	            <button class="show" type="button">Expand Installation Material Details</button>
+	            <div class="hid" style="font-size: 20px; background-color: #e6e6e6">
+	                {{for i in material_names:}}
+                        {{if i.installation_material.id in choose_material:}}
+	                        <input type="checkbox" name="material" value="{{=i.installation_material.id}}" checked="checked">{{=i.installation_material.name}}&nbsp;&nbsp;&nbsp;&nbsp;{{=i.installation_material.description}}<br />
+                        {{else:}}
+                            <input type="checkbox" name="material" value="{{=i.installation_material.id}}">{{=i.installation_material.name}}&nbsp;&nbsp;&nbsp;&nbsp;{{=i.installation_material.description}}<br />
+                        {{pass}}
+	                {{pass}}
+	            </div>
+	        </div><br /><br />
+	        <div>
+	            <button class="show" type="button">Expand Extra Information Details</button>
+	            <div class="hid2" style="font-size: 20px; background-color: #e6e6e6">
+                    {{for i in extra_table:}}
+                        {{if i.extra_information_in_design.id in choose_extra:}}
+	                        <input type="checkbox" name="extra" value="{{=i.extra_information_in_design.id}}" checked="checked">{{=i.extra_information_in_design.name}}&nbsp;&nbsp;&nbsp;&nbsp;
+                        {{else:}}
+                            <input type="checkbox" name="extra" value="{{=i.extra_information_in_design.id}}">{{=i.extra_information_in_design.name}}&nbsp;&nbsp;&nbsp;&nbsp;
+                        {{pass}}
+	                    {{if i.extra_information_in_design.default_value:}}
+	                        {{=i.product_quotation_extra_information_values.default_value}}<br />
+	                    {{pass}}
+	                    {{if i.extra_information_in_design.calculation:}}
+	                        {{=i.product_quotation_extra_information_values.extra_information_value}}<br />
+	                    {{pass}}
+	                {{pass}}
+	            </div>
+	        </div><br /><br />
+            <input type="hidden" name="product_id" value="{{=product.id}}">
+            <input type="submit" value="Confirm these details"><br /><br /><br />
+        </form>

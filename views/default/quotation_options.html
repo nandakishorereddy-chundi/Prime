@@ -1,0 +1,14 @@
+{{extend 'layout.html'}}
+        <form action="generate_quotation_details.html">
+            <input type="hidden" name="document_id" value="{{=document_id}}" />
+            <input type="submit" value="Create new Quotation" />
+        </form><br /><br />
+        <form action="copy_quotation">
+            <select name="entry_id">
+                {{for entry in quotations:}}
+					<option value="{{=entry.id}}">{{=entry.name}}</option>
+                {{pass}}
+			</select>
+            <input type="hidden" name="document_id" value="{{=document_id}}" />
+            <input type="submit" value="Modify this Quotation and generate new Quotation" />
+        </form><br /><br />

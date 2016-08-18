@@ -1,0 +1,9 @@
+{{extend 'layout.html'}}
+        <form action="design_parameters_values">
+            <input type="hidden" name="product_id" value="{{=product_id}}" />
+            {{for parameter in parameters:}}
+                <h2> {{=parameters[parameter]}}: <input type="text" name="{{=parameter}}"> </h2>
+            {{pass}}
+            <input type="submit" value="Submit" />
+        </form>
+

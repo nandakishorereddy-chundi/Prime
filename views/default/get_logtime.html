@@ -1,0 +1,44 @@
+{{extend 'layout.html'}}
+{{include 'web2py_ajax.html'}}
+        <script type="text/javascript">
+            $(document).ready(function() {
+
+		    });
+            function check()
+            {
+                if (document.getElementById('pick').checked)
+                {
+	                var from = $("#from").val();
+	                var to = $("#to").val();
+	                if (Date.parse(from) > Date.parse(to))
+                    {
+                        document.getElementById('pick').checked = false;
+                        document.getElementById('all').checked = true;
+		                alert("Invalid Date Range. Showing all logs");
+	                }
+                    else
+                    {
+                        $('#formid').submit();
+                    }
+                }
+                else
+                {
+                    $('#formid').submit();
+                }
+            }
+        </script>
+        <form id="formid" action="view_logs.html" onsubmit="check();">
+		  <input type="radio" name="time" value="1" checked = "checked">Last 1 day<br>
+		  <input type="radio" name="time" value="3">Last 3 days<br>
+          <input type="radio" name="time" value="7">Last 1 week<br>
+          <input type="radio" name="time" value="14">Last 2 weeks<br>
+          <input type="radio" name="time" value="30">Last 1 month<br>
+          <input type="radio" name="time" value="90">Last 3 months<br>
+          <input type="radio" name="time" value="180">Last 6 months<br>
+          <input type="radio" name="time" value="365">Last 1 year<br>
+          <input type="radio" name="time" value="all" id="all">All<br>
+          <input type="radio" name="time" value="picked" id="pick">
+          From:&nbsp;&nbsp;<input type="date" id="from" name="from_time" value="{{=datetime.date.today()-datetime.timedelta(days=1)}}">
+          To:&nbsp;&nbsp;<input type="date" id="to" name="to_time" value="{{=datetime.date.today()}}"><br><br>
+          <input type="submit" value="View Logs belonging to this period">
+		</form>

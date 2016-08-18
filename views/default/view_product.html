@@ -1,0 +1,209 @@
+{{extend 'layout.html'}}
+        <style>
+            input[type=text]
+            {
+			    text-align: center;
+			}
+            input[type=text]:focus
+            {
+			    border: 3px solid #555;
+			}
+            input
+            {
+                border-width:2px;
+            }
+        </style>
+        <script>
+			$(document).ready(function() {
+                $("#project").click(function(){
+                   $("form#project").submit();
+                });
+                 $("#install").click(function(){
+                   $("form#install").submit();
+                });
+                 $("#param").click(function(){
+                   $("form#param").submit();
+                });
+			});
+        </script>
+        <form style="text-align: center" action={{=(URL('update_product'))}}>
+            <div style="text-align: center" xmlns="http://www.w3.org/1999/html">
+            <div style="text-align: center; font-size: 20px; margin: 10px">
+                <button type="button" id="project">Back to Project Page</button><br>
+                {{for design in design_table:}}
+                    <a href="{{=URL('download',args=design.design_image)}}" target="blank"><img width="500px" src="{{=URL('download', args=design.design_image)}}" /></a><br />
+                    <br /><b>Name: {{=design.name}}</b><br />
+                    <b>Description: {{=design.description}}</b><br /><br />
+                    {{for row in product_table:}}
+                        {{i=0}}
+                        {{design_name=db(db.design.id==row.design_id).select(db.design.name)}}
+                        Name: <input type="text" name="product_name_{{=i}}"  size="8" value="{{=row.name}}" /><br>
+                        <input type="hidden" id="current_phase" value="{{=row.phase}}">
+                        Phase: <select name="product_phase_{{=i}}" id="phase_select">
+                            <option value="Started">Started</option>
+                            <option value="Production">Production</option>
+                            <option value="Delivery">Delivery</option>
+                            <option value="Installation">Installation</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Cancelled">Cancelled</option>
+	                    </select><br />
+	                    <script>
+	                        var options = document.getElementById("phase_select").options;
+	                        var phase = document.getElementById("current_phase").value;
+	                        for(var i = 0; i < options.length; i++)
+	                        {
+	                            if(options[i].text == phase)
+	                            {
+	                                options[i].setAttribute("selected","selected");
+	                            }
+	                        }
+	                    </script>
+                        Block Number: <input type="text" name="product_block_number_{{=i}}"  size="4" value="{{=row.block_number}}" /><br>
+                        Flat Number: <input type="text" name="product_flat_number_{{=i}}"  size="4" value="{{=row.flat_number}}" /><br>
+                        Window Number: <input type="text" name="product_window_number_{{=i}}"  size="4" value="{{=row.window_number}}" /><br><br />
+                        Extra Comment: <textarea rows="4" cols="50" name="product_extra_comment_{{=i}}" style="text-align: center; ">{{=row.extra_comment}}</textarea><br><br/>
+                        {{if row.installed_by != None:}}
+                            {{details = db(db.installation_details.id == row.installed_by).select()}}
+                            {{for detail in details:}}
+                                Installed By: {{=detail.name}}<br>
+                                Phone Number: {{=detail.phone_number}}<br />
+                            {{pass}}
+                            <button type="button" id="install">Update Installation Details</button>
+	                        <br /><br />
+                        {{pass}}
+                        {{i+=1}}
+                    {{pass}}
+            <br>
+            </div>
+            {{pass}}
+            <h2>Design Parameters</h2>
+            <div style="text-align: center; font-size: 20px; margin: 10px">
+                {{for i in range(len(parameter_table)):}}
+                    <b>{{=i+1}}.&nbsp;&nbsp;&nbsp;&nbsp;{{=parameter_table[i].design_parameters.name}}&nbsp;&nbsp;&nbsp;&nbsp;{{=parameter_table[i].design_parameters.codename}} = {{=parameter_table[i].design_parameters_values.parameter_value}}</b><br>
+                {{pass}}
+                <br />
+            </div>
+            <button type="button" id="param">Update Design Parameter Values</button>
+	            <br /><br />
+            <h2>Profile Details</h2>
+            <div style="text-align: center; font-size: 20px; margin: 15px">
+
+            {{for i in range(len(profile_table)):}}
+                    <b>{{=i+1}}.&nbsp;&nbsp;&nbsp;&nbsp;{{=profile_table[i].profile.name}}</b><br />
+                    <input type="hidden" class = "current_position" value="{{=profile_table[i].profile_values.profile_position}}">
+                    <input type="hidden" class = "current_cut" value="{{=profile_table[i].profile_values.cut}}">
+                    Profile Position: <select class = "pos" name="profile_position_{{=i}}">
+                        <option value="W">W</option>
+                        <option value="H">H</option>
+                    </select><br />
+                    Profile Cut: <select class = "cut" name="profile_cut_{{=i}}">
+                        <option value="/">/</option>
+                        <option value="\">\</option>
+                    </select><br />
+                    Quantity: <input type="text" name="profile_quantity_{{=i}}"  size="4" value="{{=profile_table[i].profile_values.quantity}}" /><br />
+                    Length calculation: <input type="text" name="profile_length_{{=i}}"  size="4" value="{{=profile_table[i].profile_values.length_value}}" /><br />
+                    Cost calculation: <input type="text" name="profile_cost_{{=i}}"  size="4" value="{{=profile_table[i].profile_values.profile_cost}}" /><br /><br />
+            {{pass}}
+            <br />
+            </div>
+
+            <h2>Reinforcement Details</h2>
+            <div style="text-align: center; font-size: 20px; margin: 10px">
+            {{for i in range(len(reinforcement_table)):}}
+                    <b>{{=i+1}}.&nbsp;&nbsp;&nbsp;&nbsp;{{=reinforcement_table[i].reinforcement.name}}</b><br />
+                    Quantity: <input type="text" name="reinforcement_quantity_{{=i}}"  size="4" value="{{=reinforcement_table[i].reinforcement_values.quantity}}" /><br />
+                    Length calculation: <input type="text" name="reinforcement_length_{{=i}}"  size="4" value="{{=reinforcement_table[i].reinforcement_values.length_value}}" /><br />
+                    Cost calculation: <input type="text" name="reinforcement_cost_{{=i}}"  size="4" value="{{=reinforcement_table[i].reinforcement_values.reinforcement_cost}}" /><br /><br />
+            {{pass}}
+            <br />
+            </div>
+
+            <h2>Hardware and Accessories Details</h2>
+            <div style="text-align: center; font-size: 20px; margin: 10px">
+            {{for i in range(len(HAA_table)):}}
+                    <b>{{=i+1}}.&nbsp;&nbsp;&nbsp;&nbsp;{{=HAA_table[i].hardware_and_accessories.name}}</b><br>
+                    Quantity: <input type="text" name="HAA_quantity_{{=i}}"  size="4" value="{{=HAA_table[i].hardware_and_accessories_values.quantity}}" /><br />
+                    Cost calculation: <input type="text" name="HAA_cost_{{=i}}"  size="4" value="{{=HAA_table[i].hardware_and_accessories_values.hardware_and_accessories_cost}}" /><br /><br />
+            {{pass}}
+            <br />
+            </div>
+
+            <h2>Glass Details</h2>
+            <div style="text-align: center; font-size: 20px; margin: 10px">
+            {{for i in range(len(glass_table)):}}
+                    <b>{{=i+1}}.&nbsp;&nbsp;&nbsp;&nbsp;{{=glass_table[i].glass.name}}</b><br />
+                    Width Calculation: <input type="text" name="glass_width_{{=i}}"  size="4" value="{{=glass_table[i].glass_values.width}}" /><br />
+                    Height Calculation: <input type="text" name="glass_height_{{=i}}"  size="4" value="{{=glass_table[i].glass_values.height}}" /><br />
+                    Quantity: <input type="text" name="glass_quantity_{{=i}}"  size="4" value="{{=glass_table[i].glass_values.quantity}}" /><br />
+                    Cost calculation: <input type="text" name="glass_cost_{{=i}}"  size="4" value="{{=glass_table[i].glass_values.glass_cost}}" /><br /><br />
+            {{pass}}
+            <br />
+            </div>
+
+            <h2>Installation Material Details</h2>
+            <div style="text-align: center; font-size: 20px; margin: 10px">
+            {{for i in range(len(material_table)):}}
+                    <b>{{=i+1}}.&nbsp;&nbsp;&nbsp;&nbsp;{{=material_table[i].installation_material.name}}</b><br />
+                    Quantity: <input type="text" name="material_quantity_{{=i}}"  size="4" value="{{=material_table[i].installation_material_values.quantity}}" /><br />
+                    Cost calculation: <input type="text" name="material_cost_{{=i}}"  size="4" value="{{=material_table[i].installation_material_values.installation_material_cost}}" /><br /><br />
+            {{pass}}
+            <br />
+            </div>
+
+            <h2>Extra Information</h2>
+            <div style="text-align: center; font-size: 20px; margin: 10px">
+            {{for i in range(len(extra_values)):}}
+                    <b>{{=i+1}}.&nbsp;&nbsp;&nbsp;&nbsp;{{=extra_values[i].extra_information_in_design.name}}</b><br />
+                    {{if extra_information_table[i].default_value:}}
+                        Value: <input type="text" name="extra_information_calculation_{{=i}}"  size="4" value="{{=extra_values[i].extra_information_values.default_value}}" /><br /><br />
+                    {{pass}}
+                    {{if extra_information_table[i].calculation:}}
+                        Value: <input type="text" name="extra_information_calculation_{{=i}}"  size="4" value="{{=extra_values[i].extra_information_values.extra_information_value}}" /><br /><br />
+                    {{pass}}
+            {{pass}}
+            <br />
+            </div>
+
+            </div>
+            <script>
+                var options = document.getElementsByClassName("pos");
+                var phase = document.getElementsByClassName("current_position");
+                for(var j = 0; j < options.length; j++)
+                {
+                    for (var i = 0; i < options[j].options.length; i++)
+                    {
+                        if (options[j].options[i].text == phase[j].value)
+                        {
+                            options[j].options[i].setAttribute("selected", "selected");
+                        }
+                    }
+                }
+                options = document.getElementsByClassName("cut");
+                phase = document.getElementsByClassName("current_cut");
+                for(j = 0; j < options.length; j++)
+                {
+                    for (i = 0; i < options[j].options.length; i++)
+                    {
+                        if (options[j].options[i].text == phase[j].value)
+                        {
+                            options[j].options[i].setAttribute("selected", "selected");
+                        }
+                    }
+                }
+            </script>
+            <input type='hidden' name='product_id' value={{=product_id}}>
+            <input type="submit" value="Update Product Details" />
+        </form>
+        <form style="display: none" id="project" action={{=(URL('view_project.html'))}}>
+            <input type='hidden' name='project_id' value={{=project_id}}>
+            <input type='hidden' name='product_id' value={{=product_id}}>
+            <input type="submit" value="Back to Project Page" />
+        </form><br>
+        <form style="display: none" id="install" action={{=(URL('enter_installation.html', vars = dict(product_id = product_id)))}}>
+            <input type='hidden' name='product_id' value={{=product_id}}><br />
+            <input type="submit" value="Update Installation Details" />
+        </form><br />
+        <form style="display: none" id="param" action={{=(URL('update_parameters.html', vars = dict(product_id = product_id)))}}>
+            <input type='hidden' name='product_id' value={{=product_id}} />
+            <input type="submit" value="Update Design Parameter Values" />
+        </form><br /><br />

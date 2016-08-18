@@ -1,0 +1,12 @@
+{{extend 'layout.html'}}
+        {{if auth.user and auth.user.IS_ADMIN:}}
+			<form action="delete_profit_margin_entries">
+                {{for entry in profit_table:}}
+                    {{=entry.name}}&nbsp;&nbsp;&nbsp;&nbsp;{{=entry.percentage}}&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="checkbox" name="{{=entry.id}}" /><br />
+                {{pass}}
+				<input type="submit" name="delete" value="Delete these entries"/>
+			</form>
+		{{else:}}
+            <p style="font-size:24px">You do not have access to this page. Please contact administrator for access.</p>
+        {{pass}}

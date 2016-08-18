@@ -1,0 +1,19 @@
+{{extend 'layout.html'}}
+        {{if len(l):}}
+            {{for i in range(0,len(l)):}}
+                {{=LI(A(l.keys()[i],_href=URL('view_project.html',vars=dict(project_id = l.values()[i]))))}}
+                {{rows=db(db.project.id==l.values()[i]).select()}}
+                {{products=db(db.product.project_id==l.values()[i]).select()}}
+                {{no_of_products=len(products)}}
+                {{for row in rows:}}
+                    Address: {{=row.address}}<br/>
+                    Description: {{=row.description}}<br/>
+                    Phase: {{=row.phase}}<br/>
+                    Registered Date: {{=row.registered_date}}<br/>
+                    Number of Products: {{=no_of_products}}<br/>
+                {{pass}}
+                <br /><br />
+            {{pass}}
+        {{else:}}
+            <h3><b>No Matches Found</b></h3><br />
+            {{pass}}
